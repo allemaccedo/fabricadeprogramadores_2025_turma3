@@ -1,0 +1,27 @@
+from clases_ex_01 import Marinhos
+
+animal1 = Marinhos(6.0, ["Cinza", "Branco"], "Peixes e lulas", "Carcharodon", "Tubarão-branco")
+animal2 = Marinhos(30.0, ["Azul", "Cinza"], "Krill e plâncton", "Balaenoptera", "Baleia-azul")
+animal3 = Marinhos(2.5, ["Laranja", "Branco", "Preto"], "Pequenos crustáceos", "Amphiprioninae", "Peixe-palhaço")
+animal4 = Marinhos(3.0, ["Preto"], "Peixes", "Muraenidae", "Moreia")
+animal5 = Marinhos(1.2, ["Marrom", "Verde"], "Algas e pequenos peixes", "Cheloniidae", "Tartaruga-verde")
+animal6 = Marinhos(4.0, ["Preto", "Branco"], "Peixes, focas", "Orcinus", "Orca")
+animal7 = Marinhos(0.3, ["Amarelo", "Laranja"], "Plâncton", "Asteriidae", "Estrela-do-mar")
+animal8 = Marinhos(1.8, ["Cinza", "Branco"], "Peixes e moluscos", "Phoca", "Foca-comum")
+animal9 = Marinhos(2.0, ["Marrom", "Bege"], "Peixes e lulas", "Otariidae", "Leão-marinho")
+animal10 = Marinhos(5.5, ["Preto", "Branco"], "Peixes", "Delphinidae", "Golfinho-nariz-de-garrafa")
+animal11 = Marinhos(1.0, ["Transparente"], "Plâncton", "Scyphozoa", "Água-viva")
+animal12 = Marinhos(1.0, ["Vermelho"], "Crustáceos pequenos", "Homaridae", "Lagosta")
+animal13 = Marinhos(0.2, ["Azul", "Cinza"], "Pequenos crustáceos", "Syngnathidae", "Cavalo-marinho")
+animal14 = Marinhos(4.5, ["Preto", "Cinza"], "Peixes pequenos", "Mobula", "Raia-manta")
+animal15 = Marinhos(0.5, ["Verde"], "Plâncton", "Sirenia", "Peixe-boi")
+animal16 = Marinhos(2.0, ["Cinza", "Branco"], "Peixes e moluscos", "Monodontidae", "Narval")
+animal17 = Marinhos(0.1, ["Vermelho"], "Detritos marinhos", "Paguroidea", "Caranguejo-eremita")
+animal18 = Marinhos(0.3, ["Amarelo", "Laranja"], "Crustáceos", "Portunidae", "Siri")
+animal19 = Marinhos(12.0, ["Cinza", "Branco"], "Peixes grandes", "Selachimorpha", "Tubarão-baleia")
+animal20 = Marinhos(13.0, ["Rosa", "Branco"], "Lulas", "Architeuthis", "Lula-gigante")
+
+# chamando função
+animal1.alimento()
+animal10.sexo()
+animal19.especi()
