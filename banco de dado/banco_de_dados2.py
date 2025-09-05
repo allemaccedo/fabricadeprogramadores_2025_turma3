@@ -19,7 +19,7 @@ try:
                 "FOREIGN KEY (id_pessoa) REFERENCES pessoa(id_pessoa))"
                 )
 
-    cur.execute("SELECT * FROM pessoa, data_consulta FROM pessoa, consulta WHERE pessoa.id_pessoa = %d" % 1)
+    cur.execute("SELECT * FROM pessoa, consulta WHERE pessoa.id_pessoa = %d" % 1)
     res = cur.fetchone()
     print(res)
 
@@ -27,4 +27,5 @@ try:
     cur.close()
     con.close()
 except ConnectionRefusedError as c:
+
     print('Erro de Conexão:', c)
