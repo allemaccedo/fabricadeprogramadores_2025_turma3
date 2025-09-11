@@ -16,6 +16,19 @@ def init_db():
         with app.open_resource('schema.sql', mode = 'r') as f:
             db.cursor().executescript(f.read())
         db.commit
+    
+
+def new_note(nota):
+    con = sqlite3.connect(BANCO_DE_DADOS)
+    cur = con.cursor()
+    cur.execute("""
+        INSERT INTO anotacoes (texto, data_hora)
+        VALUES(%, datatime('now))
+""" % nota)
+    con.commit()
+    con.close()
+    con.close()
+
 
 @app.route('/iniciar')
 def iniciar ():
