@@ -13,17 +13,18 @@ base = declarative_base()
 class Usuario (base):
     __tablename__ = "usuarios" 
     
-    id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String(100), nullable=False)
-    email = Column (String(255), unique= True, nullable=False)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    nome = Column(String(255), nullable=False)
+    email = Column (String(255), nullable=False)
     senha_hash = Column (String(255), nullable=False)
     criado_em = Column (DateTime(timezone=True), default=datetime.datetime.now)
+
     notas = relationship("Nota", back_populates="autor")
 
 class Nota (base):
     __tablename__ = "notas"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     id_usuario = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
     conteudo = Column(Text)
     criado_em = Column(DateTime(timezone=True), default=datetime.datetime.now)

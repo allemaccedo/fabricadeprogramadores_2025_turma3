@@ -12,13 +12,17 @@ def index():
         data = request.get_data()
         usuario_e_nota = json.loads(data)
 
-        user = Usuario(usuario_e_nota["usuario"],'email', 'senha')
-        note = Nota(usuario_e_nota)
+        user = Usuario(
+                        nome = usuario_e_nota["usuario"],
+                        email = "email@email.com",
+                        senha_hash="senha")
+        note = Nota(
+                        titulo = usuario_e_nota["titulo"],
+                        conteudo =usuario_e_nota["nota"])
         criar_novo_usuario_e_nota(user, note)
-        return jsonify({"msg": "Usuario e nota criados com sucesso!"})
+        return jsonify({"message": "Usuario e nota criados com sucesso!"}), 201
     else:
         return jsonify({'error': 'Pagina nao encontrada!'}), 404
-        
-        
+             
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
