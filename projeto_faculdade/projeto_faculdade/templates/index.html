@@ -22,9 +22,6 @@
     <label for="senha">Senha:</label>
     <input type="text" id="senha" name="senha" required>
 
-    <label for="titulo">Titulo:</label>
-    <input type="text" id="titulo" name="titulo" required>
-
     <label for="nota">Nota:</label>
     <input type="text" id="nota" name="nota" placeholder="Ex: 7.5" required />
 
@@ -44,6 +41,9 @@
 
   const usuario = form.usuario.value;
   const nota = form.nota.value;
+  const senha = form.senha.value;
+  const email = form.email.value;
+
 
   if (!usuario || !nota || isNaN(parseFloat(nota))) {
     message.textContent = 'Por favor, preencha todos os campos corretamente.';
@@ -57,7 +57,7 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ usuario, nota: parseFloat(nota) }),
+      body: JSON.stringify({ usuario, nota, senha, email }),
     });
 
     const result = await response.json();

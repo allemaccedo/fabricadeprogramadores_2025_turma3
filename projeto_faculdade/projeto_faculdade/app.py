@@ -14,10 +14,9 @@ def index():
 
         user = Usuario(
                         nome = usuario_e_nota["usuario"],
-                        email = "email@email.com",
-                        senha_hash="senha")
+                        email = usuario_e_nota["email"],
+                        senha_hash=usuario_e_nota["senha"])
         note = Nota(
-                        titulo = usuario_e_nota["titulo"],
                         conteudo =usuario_e_nota["nota"])
         criar_novo_usuario_e_nota(user, note)
         return jsonify({"message": "Usuario e nota criados com sucesso!"}), 201
