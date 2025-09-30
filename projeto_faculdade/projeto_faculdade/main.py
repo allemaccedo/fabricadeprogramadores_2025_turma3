@@ -1,4 +1,4 @@
-from tabelas import SessionLocal, Usuario, Nota
+from tabelas import SessionLocal, Usuario, Nota, joinedload
 
 db = SessionLocal()
 
@@ -8,38 +8,52 @@ def criar_novo_usuario_e_nota(novo_usuario: Usuario, nova_nota: Nota):
     db.commit()
     print(f"Usuario '{novo_usuario.nome}' criado com ID: {novo_usuario.id}")
 
-
-    note= Nota (
-        id_usuario = novo_usuario.id,
-        conteudo = nova_nota.conteudo
-        )
-
+    note = Nota(
+        id_usuario=novo_usuario.id,
+        titulo=nova_nota.titulo,
+        conteudo=nova_nota.conteudo
+    )
     db.add(note)
-    db.commit
+    db.commit()
 
-def autualizar_nota(id_nota: int, conteudo: str):
+
+def atualizar_nota(id_nota: int, titulo:str, conteudo: str):
 
     nota_para_editar = db.query(Nota).filter(Nota.id == id_nota).first()
 
     if nota_para_editar:
+       
+        nota_para_editar.titulo=titulo
+        nota_para_editar.conteudo=conteudo
 
-        nota_para_editar.conteudo = conteudo
         db.commit()
-          
     else:
         print("Nota com ID % não encontrada." % id_nota)
 
 def ler_dados():
 
-    users = db.query(Usuario).all()
+    users = db.query(Usuario).options(joinedload(Usuario.notas)).all()
 
-    if users:
-        
-        for nota in users.notas:
-            print(f"  - conteudo: {nota.conteudo} (ID {nota.id})")
-        return users, nota 
-    else:
-        print("Usuario(a) nao encontrado.")
+    resultado = []
+    for u in users:
+        notas = []
+        for n in u.notas:
+            notas.append({
+                "id": n.id,
+                "titulo": n.titulo,
+                "conteudo": n.conteudo,
+                "criado_em": n.criado_em
+            })
+
+
+            resultado.append({
+            "id": u.id,
+            "usuario": u.nome,
+            "email": u.email,
+            "criado_em": u.criado_em,
+            "notas": notas
+        })
+    return resultado
 
 def deletar_usuario(id_usuario: int):
 
@@ -52,4 +66,4 @@ def deletar_usuario(id_usuario: int):
 
         print(f"Usuario: '{usuario_deletado.nome}' removido com sucesso!")       
     else:
-        print("Usuario com ID % não encontrada." % id_usuario)
+        print("Nota com ID % não encontrada." % id_usuario)

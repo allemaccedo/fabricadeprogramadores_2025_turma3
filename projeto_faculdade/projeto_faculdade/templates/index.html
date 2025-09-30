@@ -18,6 +18,9 @@
 
     <label for="email">E-mail:</label>
     <input type="text" id="email" name = "email" required>
+    
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name = "titulo" required>
 
     <label for="senha">Senha:</label>
     <input type="text" id="senha" name="senha" required>
@@ -43,6 +46,7 @@
   const nota = form.nota.value;
   const senha = form.senha.value;
   const email = form.email.value;
+  const titulo = form.titulo.value;
 
 
   if (!usuario || !nota || isNaN(parseFloat(nota))) {
@@ -57,7 +61,7 @@
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ usuario, nota, senha, email }),
+      body: JSON.stringify({ usuario, nota, senha, email, titulo }),
     });
 
     const result = await response.json();

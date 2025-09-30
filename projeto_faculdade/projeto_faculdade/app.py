@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, json
-from main import ler_dados, autualizar_nota, criar_novo_usuario_e_nota, deletar_usuario
-from tabelas import Usuario, Nota
+from main import ler_dados, atualizar_nota, criar_novo_usuario_e_nota, deletar_usuario
+from tabelas import Usuario, Nota, joinedload
 
 app = Flask(__name__)
 
@@ -10,18 +10,29 @@ def index():
         return render_template('index.html')
     elif request.method == 'POST':
         data = request.get_data()
-        usuario_e_nota = json.loads(data)
+        usuario_o_nota = json.loads(data)
 
         user = Usuario(
-                        nome = usuario_e_nota["usuario"],
-                        email = usuario_e_nota["email"],
-                        senha_hash=usuario_e_nota["senha"])
+                        nome = usuario_o_nota["usuario"], 
+                        email =usuario_o_nota["email"] ,
+                        senha_hash = usuario_o_nota["senha"] )
+
         note = Nota(
-                        conteudo =usuario_e_nota["nota"])
+                    titulo = usuario_o_nota["titulo"],
+                    conteudo = usuario_o_nota ["nota"])
+
         criar_novo_usuario_e_nota(user, note)
-        return jsonify({"message": "Usuario e nota criados com sucesso!"}), 201
+        return jsonify ({"message": "Usuário e nota criados com sucesso!"}), 201
     else:
-        return jsonify({'error': 'Pagina nao encontrada!'}), 404
-             
+        return jsonify({'error': 'Página não encontrada!'}), 404
+
+@app.route("/api/users", methods=["GET"])
+def api_users():
+    try:
+        data = ler_dados()
+        return jsonify({"success": True, "data": data}), 200
+    except Exception as e:
+        return jsonify({"sucess": False, "error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run()
