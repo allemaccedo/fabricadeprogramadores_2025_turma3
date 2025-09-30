@@ -36,4 +36,3 @@ def api_users():
 
 if __name__ == "__main__":
     app.run()
-
