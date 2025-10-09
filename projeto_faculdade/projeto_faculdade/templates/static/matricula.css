@@ -1,0 +1,55 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+span#usuario-id, span#curso-id {
+  font-weight: 700;
+  color: #2980b9;
+}
+
+button#matricular-btn {
+  margin-top: 30px;
+  padding: 12px 25px;
+  background-color: #27ae60;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button#matricular-btn:hover {
+  background-color: #219150;
+}
+
+button#matricular-btn:active {
+  background-color: #1e7c42;
+  transform: scale(0.98);
+}

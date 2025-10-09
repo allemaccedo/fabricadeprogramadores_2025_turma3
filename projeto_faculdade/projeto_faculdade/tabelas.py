@@ -6,11 +6,11 @@ import os
 ''
 load_dotenv()
 # para remder
-# variaveis_de_ambiente = dotenv_values()
-# DATABASE_URL = variaveis_de_ambiente["DATABASE_URL"]
+variaveis_de_ambiente = dotenv_values()
+DATABASE_URL = variaveis_de_ambiente["DATABASE_URL"]
 
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+# DATABASE_URL = os.environ.get('DATABASE_URL')
 
 engine = create_engine(DATABASE_URL)
 
@@ -33,7 +33,7 @@ usuario_curso_associacao = Table(
 )
 
 class Usuario(Base):
-    _tablename_ = "usuarios"  # O nome exato da tabela no banco de dados
+    __tablename__ = "usuarios"  # O nome exato da tabela no banco de dados
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     nome = Column(String(255), nullable=False)
@@ -51,7 +51,7 @@ class Usuario(Base):
         back_populates="alunos")
 
 class Nota(Base):
-    _tablename_ = "notas"
+    __tablename__ = "notas"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     id_usuario = Column(Integer, ForeignKey("usuarios.id"), nullable=False)
     conteudo = Column(Text)
@@ -62,7 +62,7 @@ class Nota(Base):
     autor = relationship("Usuario", back_populates="notas")
 
 class Enderecos(Base):
-    _tablename_ = "enderecos"
+    __tablename__ = "enderecos"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
  
@@ -77,8 +77,7 @@ class Enderecos(Base):
     )
 
 class Cursos(Base):
-
-    _tablename_ = "cursos"
+    __tablename__ = "cursos"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     nome = Column(Text)

@@ -77,9 +77,9 @@ def matricula(id_usuario, id_curso):
         data = request.get_data()
         ids = json.loads(data)
         try:
-            matricular_aluno(ids['id_usuario'],ids['id_curso'])
+            matricular_aluno(int(ids['id_usuario']),int(ids['id_curso']))
             app.logger.info("Usuario do id: %s foi matriculado!" % ids['id_usuario'])
-            return redirect(url_for('home'))
+            return redirect(url_for('home')) 
         except Exception as e:
             app.logger.error("Erro na Matricula de usuário: ", str(e))
             return jsonify({"sucess": False, "error": str (e)}), 500
