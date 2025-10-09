@@ -1,5 +1,5 @@
-from flask import Flask, request, jsonify, render_template, json
-from main import ler_dados, atualizar_nota, criar_novo_usuario_e_nota, deletar_usuario
+from flask import Flask, request, jsonify, render_template, json, redirect, url_for
+from main import ler_dados, atualizar_nota, criar_novo_usuario_e_nota, deletar_usuario, login_de_usuario,  matricular_aluno
 from tabelas import Usuario, Nota, joinedload
 
 app = Flask(__name__)
@@ -34,5 +34,57 @@ def api_users():
     except Exception as e:
         return jsonify({"sucess": False, "error": str(e)}), 500
 
+
+@app.route("/home", methods=["GET"])
+def home():
+    return render_template("home.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        data = request.get_data()
+        usuario = json.loads(data)
+        user = Usuario(email=usuario["email"], senha_hash=usuario["senha_hash"])
+        print('usuario', user)
+        try:
+            usr = login_de_usuario(user)
+            app.logger.info("Usuário de email: %s logado!" % usuario["email"])
+            return redirect(url_for("home", data=usr))
+        except Exception as e:
+            app.logger.error("Erro no servidor: ", str(e))
+            return jsonify({"success": False, "error": str(e)}), 500
+    else:
+        return render_template('login.html')
+
+@app.route("/remover/usuarios/<id_usuario>", methods=["GET", "POST"])
+def remover_usuarios(id_usuario):
+    if request.method == "POST":
+        data = request.get_data()
+        id_usuario = json.loads(data)
+        try:
+            deletar_usuario(id_usuario=id_usuario)
+            app.logger.info("usuario do id: %d foi removido com sucesso")
+            return redirect(url_for("index"))
+        except Exception as e:
+            app.logger.error("Erro na remoção de usuarios:", str(e))
+            return jsonify({"success": False, "error": str(e)}),500
+    else:
+            return render_template('remover.html')
+
+@app.route("/matricula/<id_usuario>/<id_curso>", methods=['GET', 'POST'])
+def matricula(id_usuario, id_curso):
+    if request.method == "POST":
+        data = request.get_data()
+        ids = json.loads(data)
+        try:
+            matricular_aluno(ids['id_usuario'],ids['id_curso'])
+            app.logger.info("Usuario do id: %s foi matriculado!" % ids['id_usuario'])
+            return redirect(url_for('home'))
+        except Exception as e:
+            app.logger.error("Erro na Matricula de usuário: ", str(e))
+            return jsonify({"sucess": False, "error": str (e)}), 500
+    else:
+         return render_template('matricula.html')
+    
 if __name__ == "__main__":
     app.run()

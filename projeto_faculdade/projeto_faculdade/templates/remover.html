@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Remover Usuário</title>
+    <link rel="stylesheet" href="estilo.css" />
+    <script>
+        function validarFormulario(event) {
+            event.preventDefault();
+
+            const idUsuarioInput = document.getElementById('id_usuario');
+            const idUsuario = Number(idUsuarioInput.value);
+
+            if (isNaN(idUsuario) || idUsuario <= 0) {
+                alert('Por favor, insira um ID de usuário válido (número positivo).');
+                idUsuarioInput.focus();
+                return false;
+            }
+
+            const confirmado = confirm(`Tem certeza que deseja remover o usuário com ID ${idUsuario}?`);
+            if (!confirmado) {
+                return false;
+            }
+
+            // Cria um form dinâmico para enviar POST para /remover/usuarios/<id_usuario>
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/remover/usuarios/${idUsuario}`;
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', validarFormulario);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Remover Usuário</h1>
+        <form>
+            <div class="form-group">
+                <label for="id_usuario">ID do Usuário:</label>
+                <input type="number" id="id_usuario" name="id_usuario" required />
+            </div>
+            <button type="submit">Remover</button>
+        </form>
+    </div>
+</body>
+</html>

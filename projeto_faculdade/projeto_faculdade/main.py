@@ -1,4 +1,4 @@
-from tabelas import SessionLocal, Usuario, Nota, joinedload
+from tabelas import SessionLocal, Usuario, Nota, Cursos,  joinedload
 
 db = SessionLocal()
 
@@ -61,9 +61,45 @@ def deletar_usuario(id_usuario: int):
 
     if usuario_deletado:
 
+        usuarios = db.query(Usuario).options(joinedload(Usuario.id)).filter(
+                Usuario == usuario_deletado).all()
+        for u in usuarios:
+            for n in u.notas:
+                nota_deletada = db.query(Nota).filter(Nota.id == n.id).first()
+                db.delete(nota_deletada)
+                db.commit()
+
         db.delete(usuario_deletado)
         db.commit()
 
         print(f"Usuario: '{usuario_deletado.nome}' removido com sucesso!")       
     else:
         print("Nota com ID % não encontrada." % id_usuario)
+
+def login_de_usuario(usr: Usuario):
+    usuario_logado = db.query(Usuario).filter(
+    Usuario.email == usr.email and Usuario.senha_hash == usr.senha_hash).first()
+
+    print(usuario_logado)
+    resultado = []
+    if usuario_logado:
+        resultado.append({
+            "id": usuario_logado.id,
+            "usuario": usuario_logado.nome,
+            "email": usuario_logado.email,
+            "criado_em": usuario_logado.criado_em
+        })
+        return resultado
+    else:
+        print("Usuário não encontrado")
+
+def matricular_aluno(id_aluno: int, id_curso: int):
+    curso = db.query(Cursos).filter(Cursos.id == id_curso).first()
+    aluno = db.query(Usuario).filter(Usuario.id == id_aluno).first()
+
+    if (curso and aluno):
+        aluno.usuario_cursos.append(curso)
+        db.commit()
+        return print(f'Aluno: {aluno.nome} matriculado {curso.nome} com sucesso!')
+    else:
+        return print('Erro ao realizar Matricula.')
